@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Snowdrama
+namespace Snowdrama.Timers
 {
     public class Iterator
     {
