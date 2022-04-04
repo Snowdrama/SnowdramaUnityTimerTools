@@ -10,6 +10,7 @@ namespace Snowdrama.Timer
         public event Action OnStop;
         public event Action OnIterate; //called each timer iteration
         public event Action OnStart; //called when the timer is started
+        [SerializeField] private float elapsedTime;
         [SerializeField] private float currentTime;
         [SerializeField] private float iterateTime;
         [SerializeField] private float totalTime;
@@ -85,6 +86,11 @@ namespace Snowdrama.Timer
         public float GetTime()
         {
             return currentTime;
+        }
+        //returns the current time in seconds
+        public float GetTotalTime()
+        {
+            return totalTime;
         }
 
         //returns current time as a percent of the max time
