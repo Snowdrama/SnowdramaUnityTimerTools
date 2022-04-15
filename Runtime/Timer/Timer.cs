@@ -20,7 +20,8 @@ namespace Snowdrama.Timer
         {
             if (time <= 0)
             {
-                throw new Exception("Time should be greather than 0");
+                time = 0; //prevent negative
+                Debug.LogError("Time for timer needs to be greater than 0!");
             }
             duration = time;
             currentTime = 0;
@@ -29,9 +30,14 @@ namespace Snowdrama.Timer
         }
 
         /// <summary>
-        /// needs to be called in the update of a gameobject.
+        /// Updates the timer based on time that has passed since last updated. Will automatically invoke
+        /// Action OnComplete if the currentTime elapses the timer duration. If AutoRestart is set OnRestart
+        /// will be called and the timer will automacially reset the timer to 0 and continue.
+        ///  
+        /// Note: if the delta time ends up longer than 2 times the duration and auto restart is enabled OnRestart
+        /// will be called each update until the currentTime becomes less than the timer duration. 
         /// </summary>
-        /// <param name="deltaTime"></param>
+        /// <param name="deltaTime">the delta of time passed since the last timer update</param>
         public void UpdateTime(float deltaTime)
         {
             if (active)
@@ -55,7 +61,7 @@ namespace Snowdrama.Timer
             }
         }
         /// <summary>
-        /// starts or resumes the timer depending on if Stop or Pause was used
+        /// Starts or resumes the timer depending on if Stop or Pause was used
         /// </summary>
         public void Start()
         {
@@ -67,7 +73,7 @@ namespace Snowdrama.Timer
             }
         }
         /// <summary>
-        /// stops the timer, and resets the current time to 0
+        /// Stops the timer, and resets the current time to 0
         /// </summary>
         public void Stop()
         {
@@ -76,7 +82,7 @@ namespace Snowdrama.Timer
         }
 
         /// <summary>
-        /// stops the timer and allows resuming from the current time
+        /// Stops the timer and allows resuming from the current time
         /// </summary>
         public void Pause()
         {
@@ -86,19 +92,28 @@ namespace Snowdrama.Timer
         /// <summary>
         /// returns the current time in seconds
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A float representing the time elapsed</returns>
         public float GetTime()
         {
             return currentTime;
         }
 
         /// <summary>
-        /// returns current time as a percent of the max time
+        /// returns the percentage from 0 to 1 as a percentage of current time to the timer's duration
         /// </summary>
-        /// <returns></returns>
-        public float GetTimePercent()
+        /// <returns>A Float from 0 to 1 representing the total time</returns>
+        public float GetPercentageComplete()
         {
             return currentTime / duration;
+        }
+
+        /// <summary>
+        /// returns the amount of time remaining until the timer ends
+        /// </summary>
+        /// <returns>A Float representing time remaining</returns>
+        public float GetTimeRemaining()
+        {
+            return duration - currentTime;
         }
 
         /// <summary>
